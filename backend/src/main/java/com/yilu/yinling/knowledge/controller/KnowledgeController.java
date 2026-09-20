@@ -1,0 +1,3 @@
+package com.yilu.yinling.knowledge.controller;
+import com.yilu.yinling.common.response.Result; import com.yilu.yinling.knowledge.service.KnowledgeService; import com.yilu.yinling.knowledge.vo.KnowledgeUploadResponse; import org.springframework.web.bind.annotation.*; import org.springframework.web.multipart.MultipartFile;
+@RestController @RequestMapping("/api/v1/admin/knowledge") public class KnowledgeController { private final KnowledgeService service; public KnowledgeController(KnowledgeService s){service=s;} @PostMapping("/upload") public Result<KnowledgeUploadResponse> upload(@RequestPart("file") MultipartFile file){return Result.ok(service.upload(file));} }

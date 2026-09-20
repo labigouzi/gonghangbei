@@ -1,0 +1,60 @@
+name: yinling
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: yinling-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: yinling_platform
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
+
+  redis:
+    image: redis:7-alpine
+    container_name: yinling-redis
+    ports:
+      - "6379:6379"
+
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: yinling-postgres
+    environment:
+      POSTGRES_DB: yinling_vector
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/vector_schema.sql:/docker-entrypoint-initdb.d/01-vector-schema.sql:ro
+
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: yinling-minio
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+
+volumes:
+
+  postgres_data:
+
+  minio_data:

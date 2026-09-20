@@ -1,0 +1,3 @@
+package com.yilu.yinling.evaluation;
+import org.springframework.stereotype.Service; import java.util.*;
+@Service public class AiEvaluationService { public EvaluationReport report(List<EvaluationResult> results){if(results==null||results.isEmpty())return new EvaluationReport(0,0,0,0,0);return new EvaluationReport(results.size(),results.stream().filter(EvaluationResult::knowledgeUsed).count()*1.0/results.size(),results.stream().filter(r->r.sourceCount()>0).count()*1.0/results.size(),results.stream().mapToDouble(EvaluationResult::confidence).average().orElse(0),results.stream().mapToInt(EvaluationResult::manualScore).average().orElse(0));} }

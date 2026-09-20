@@ -1,0 +1,6 @@
+忆路银龄比赛现场 Demo 账号
+
+账号：admin
+密码：123456
+
+说明：Demo 模式使用内存账号，不连接 MySQL、Redis、PostgreSQL、MinIO，也不调用 DeepSeek。

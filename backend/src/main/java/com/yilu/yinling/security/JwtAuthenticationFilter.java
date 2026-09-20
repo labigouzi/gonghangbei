@@ -1,0 +1,7 @@
+package com.yilu.yinling.security;
+import jakarta.servlet.*; import jakarta.servlet.http.*; import org.springframework.security.authentication.UsernamePasswordAuthenticationToken; import org.springframework.security.core.authority.SimpleGrantedAuthority; import org.springframework.security.core.context.SecurityContextHolder; import org.springframework.stereotype.Component; import org.springframework.web.filter.OncePerRequestFilter; import java.io.IOException; import java.util.List; import java.util.Collection;
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private final JwtTokenProvider provider; public JwtAuthenticationFilter(JwtTokenProvider provider){this.provider=provider;}
+    protected void doFilterInternal(HttpServletRequest req,HttpServletResponse res,FilterChain chain)throws ServletException,IOException { String h=req.getHeader("Authorization"); if(h!=null&&h.startsWith("Bearer ")) try { var c=provider.parse(h.substring(7)); Object raw=c.get("roles"); Collection<?> roles=raw instanceof Collection<?> ? (Collection<?>) raw : List.of("USER"); var authorities=roles.stream().map(Object::toString).map(role->new SimpleGrantedAuthority("ROLE_"+role)).toList(); var a=new UsernamePasswordAuthenticationToken(c.getSubject(),null,authorities); a.setDetails(c.get("userId",Long.class)); SecurityContextHolder.getContext().setAuthentication(a); } catch(Exception ignored){} chain.doFilter(req,res); }
+}

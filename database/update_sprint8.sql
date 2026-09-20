@@ -1,0 +1,4 @@
+USE yinling_platform;
+INSERT INTO sys_user(username,password,real_name,phone,status) VALUES ('elderly_demo','$2a$10$WdWW8xEypD0klawAzoBXsuZ1qHb7yu3iwt1gTdTqiQzAuxVSM48y.','银龄演示用户','13800000000',1) ON DUPLICATE KEY UPDATE real_name=VALUES(real_name),status=1;
+INSERT IGNORE INTO sys_user_role(user_id,role_id) SELECT u.id,r.id FROM sys_user u JOIN sys_role r ON r.role_code='USER' WHERE u.username='elderly_demo';
+INSERT INTO elderly_profile(user_id,age,retirement_status,monthly_income,risk_preference,digital_finance_level,pension_demand,profile_tags) SELECT id,68,'已退休','5000','稳健','初级','养老资金安全与日常陪伴','["银龄用户","稳健型","数字金融学习需求"]' FROM sys_user WHERE username='elderly_demo' ON DUPLICATE KEY UPDATE age=VALUES(age),monthly_income=VALUES(monthly_income),risk_preference=VALUES(risk_preference),digital_finance_level=VALUES(digital_finance_level);

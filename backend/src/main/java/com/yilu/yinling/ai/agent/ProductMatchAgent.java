@@ -1,0 +1,3 @@
+package com.yilu.yinling.ai.agent;
+import com.yilu.yinling.financial.service.ProductRecommendationService; import org.springframework.beans.factory.ObjectProvider; import org.springframework.stereotype.Component;
+@Component public class ProductMatchAgent { private final ObjectProvider<ProductRecommendationService> services; public ProductMatchAgent(ObjectProvider<ProductRecommendationService> s){services=s;} public void match(AgentContext c){var s=services.getIfAvailable();c.products=s==null?java.util.List.of():s.recommend(c.request.age(),c.request.riskPreference(),c.request.retirementGoal());} }

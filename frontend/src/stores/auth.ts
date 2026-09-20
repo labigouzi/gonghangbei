@@ -1,0 +1,2 @@
+import {defineStore} from 'pinia'; import {login,me} from '../api/auth';
+export const useAuthStore=defineStore('auth',{state:()=>({token:localStorage.getItem('token')||'',user:null as any}),actions:{async signIn(form:any){const r:any=await login(form);this.token=r.data.data.token;this.user=r.data.data.userInfo;localStorage.setItem('token',this.token)},async load(){const r:any=await me();this.user=r.data.data},signOut(){this.token='';this.user=null;localStorage.removeItem('token')}}});

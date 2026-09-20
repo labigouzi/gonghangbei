@@ -1,0 +1,25 @@
+spring:
+  config:
+    activate:
+      on-profile: demo
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      - com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration
+
+llm:
+  enabled: false
+  provider: mock
+embedding:
+  provider: mock
+  dimension: 1536
+vector:
+  provider: mock
+storage:
+  enabled: false
+ocr:
+  enabled: false
+  provider: mock

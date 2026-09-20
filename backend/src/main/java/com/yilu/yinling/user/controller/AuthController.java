@@ -1,0 +1,3 @@
+package com.yilu.yinling.user.controller;
+import com.yilu.yinling.common.response.Result; import com.yilu.yinling.user.dto.AuthDto; import com.yilu.yinling.user.service.UserService; import jakarta.validation.Valid; import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("/api/v1/auth") public class AuthController { private final UserService service; public AuthController(UserService s){service=s;} @PostMapping("/login") public Result<AuthDto.LoginResponse> login(@Valid @RequestBody AuthDto.LoginRequest r){return Result.ok(service.login(r));} @PostMapping("/register") public Result<AuthDto.UserView> register(@Valid @RequestBody AuthDto.RegisterRequest r){return Result.ok(service.register(r));} }
